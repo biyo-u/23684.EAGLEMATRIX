@@ -49,12 +49,18 @@ public class Middleman {
     }
 
     public void loop() {
+        double antiNormalizedHeading = ((driver.getPosition().getHeading(AngleUnit.DEGREES) - positionTarget.getHeading(AngleUnit.DEGREES)) % 360 + 360) % 360;
+
+        if (antiNormalizedHeading > 180) {
+            antiNormalizedHeading -= 360;
+        }
+
         driver.setShoulderPower(shoulderController.calculate(driver.getShoulderPosition(), shoulderTarget / AutonomousConstants.SHOULDER_DEGREES_PER_TICK));
         driver.setLiftPower(liftController.calculate(driver.getLiftPosition(), liftTarget / AutonomousConstants.LIFT_INCHES_PER_TICK));
         driver.setDrivePower(
                 driveXController.calculate(driver.getPosition().getX(DistanceUnit.INCH), positionTarget.getX(DistanceUnit.INCH)),
                 driveYController.calculate(driver.getPosition().getY(DistanceUnit.INCH), positionTarget.getY(DistanceUnit.INCH)),
-                driveHeadingController.calculate(driver.getPosition().getHeading(AngleUnit.DEGREES), positionTarget.getHeading(AngleUnit.DEGREES)));
+                driveHeadingController.calculate(antiNormalizedHeading, positionTarget.getHeading(AngleUnit.DEGREES)));
         driver.loop();
         driver.telemetry(telemetry);
         telemetry();

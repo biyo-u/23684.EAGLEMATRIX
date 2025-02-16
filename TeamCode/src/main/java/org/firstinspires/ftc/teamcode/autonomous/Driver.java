@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
@@ -18,6 +19,8 @@ public class Driver {
     private final DcMotor rearLeft;
     private final DcMotor rearRight;
     private final GoBildaPinpointDriver odometry;
+    //private final Servo wrist;
+    //private final Servo claw;
     private double shoulderPosition = 0;
     private double liftPosition = 0;
     private Pose2D position = new Pose2D(DistanceUnit.INCH, 0, 0, AngleUnit.DEGREES, 0);

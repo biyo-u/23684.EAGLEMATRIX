@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
 import org.firstinspires.ftc.teamcode.autonomous.Controller;
 
-@Autonomous(name = "Basic Auto", group = "Auto")
+@Autonomous(name = "Tuning X Auto", group = "Auto")
 public class TODOTuningX extends OpMode {
 
     private Controller controller;

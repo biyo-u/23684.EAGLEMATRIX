@@ -36,6 +36,7 @@ public class Controller {
     }
 
     public void run() {
+        middleman.loop();
         if (currentActionIndex < actions.size()) {
             Action currentAction = actions.get(currentActionIndex);
 
