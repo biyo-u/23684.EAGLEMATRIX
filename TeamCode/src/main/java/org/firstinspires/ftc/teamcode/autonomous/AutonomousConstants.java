@@ -29,11 +29,18 @@ public class AutonomousConstants {
     }
 
     public static class PIDFs {
-        public static PIDF shoulderPIDF = new PIDF(0.01, 0, 0, 0);
-        public static PIDF liftPIDF = new PIDF(0.01, 0, 0, 0);
-        public static PIDF driveXPIDF = new PIDF(0.08, 0, 0.003, 0);
-        public static PIDF driveYPIDF = new PIDF(0.08, 0, 0.009, 0);
-        public static PIDF driveHeadingPIDF = new PIDF(0.02, 0, 0.001, 0);
+//        public static PIDF shoulderPIDF = new PIDF(0.01, 0, 0, 0);
+//        public static PIDF liftPIDF = new PIDF(0.01, 0, 0, 0);
+//        public static PIDF driveXPIDF = new PIDF(0.08, 0, 0.003, 0);
+//        public static PIDF driveYPIDF = new PIDF(0.08, 0, 0.009, 0);
+//        public static PIDF driveHeadingPIDF = new PIDF(0.02, 0, 0.001, 0);
+
+        public static double shoulderP = 0.01, shoulderI = 0, shoulderD = 0, shoulderF = 0;
+        public static double liftP = 0.01, liftI = 0, liftD = 0, liftF = 0;
+        public static double driveXP = 0.08, driveXI = 0, driveXD = 0.003, driveXF = 0;
+        public static double driveYP = 0.08, driveYI = 0, driveYD = 0.009, driveYF = 0;
+        public static double driveHeadingP = 0.02, driveHeadingI = 0, driveHeadingD = 0.001, driveHeadingF = 0;
+
     }
 
     public static class THRESHOLDS {

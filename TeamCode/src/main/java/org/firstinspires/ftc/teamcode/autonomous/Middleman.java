@@ -41,11 +41,16 @@ public class Middleman {
     public Middleman(HardwareMap hardwareMap, Telemetry telemetry) {
         this.driver = new Driver(hardwareMap);
         this.telemetry = telemetry;
-        this.shoulderController = new PIDFController(AutonomousConstants.PIDFs.shoulderPIDF.getP(), AutonomousConstants.PIDFs.shoulderPIDF.getI(), AutonomousConstants.PIDFs.shoulderPIDF.getD(), AutonomousConstants.PIDFs.shoulderPIDF.getF());
-        this.liftController = new PIDFController(AutonomousConstants.PIDFs.liftPIDF.getP(), AutonomousConstants.PIDFs.liftPIDF.getI(), AutonomousConstants.PIDFs.liftPIDF.getD(), AutonomousConstants.PIDFs.liftPIDF.getF());
-        this.driveXController = new PIDFController(AutonomousConstants.PIDFs.driveXPIDF.getP(), AutonomousConstants.PIDFs.driveXPIDF.getI(), AutonomousConstants.PIDFs.driveXPIDF.getD(), AutonomousConstants.PIDFs.driveXPIDF.getF());
-        this.driveYController = new PIDFController(AutonomousConstants.PIDFs.driveYPIDF.getP(), AutonomousConstants.PIDFs.driveYPIDF.getI(), AutonomousConstants.PIDFs.driveYPIDF.getD(), AutonomousConstants.PIDFs.driveYPIDF.getF());
-        this.driveHeadingController = new PIDFController(AutonomousConstants.PIDFs.driveHeadingPIDF.getP(), AutonomousConstants.PIDFs.driveHeadingPIDF.getI(), AutonomousConstants.PIDFs.driveHeadingPIDF.getD(), AutonomousConstants.PIDFs.driveHeadingPIDF.getF());
+//        this.shoulderController = new PIDFController(AutonomousConstants.PIDFs.shoulderPIDF.getP(), AutonomousConstants.PIDFs.shoulderPIDF.getI(), AutonomousConstants.PIDFs.shoulderPIDF.getD(), AutonomousConstants.PIDFs.shoulderPIDF.getF());
+//        this.liftController = new PIDFController(AutonomousConstants.PIDFs.liftPIDF.getP(), AutonomousConstants.PIDFs.liftPIDF.getI(), AutonomousConstants.PIDFs.liftPIDF.getD(), AutonomousConstants.PIDFs.liftPIDF.getF());
+//        this.driveXController = new PIDFController(AutonomousConstants.PIDFs.driveXPIDF.getP(), AutonomousConstants.PIDFs.driveXPIDF.getI(), AutonomousConstants.PIDFs.driveXPIDF.getD(), AutonomousConstants.PIDFs.driveXPIDF.getF());
+//        this.driveYController = new PIDFController(AutonomousConstants.PIDFs.driveYPIDF.getP(), AutonomousConstants.PIDFs.driveYPIDF.getI(), AutonomousConstants.PIDFs.driveYPIDF.getD(), AutonomousConstants.PIDFs.driveYPIDF.getF());
+//        this.driveHeadingController = new PIDFController(AutonomousConstants.PIDFs.driveHeadingPIDF.getP(), AutonomousConstants.PIDFs.driveHeadingPIDF.getI(), AutonomousConstants.PIDFs.driveHeadingPIDF.getD(), AutonomousConstants.PIDFs.driveHeadingPIDF.getF());
+        this.shoulderController = new PIDFController(AutonomousConstants.PIDFs.shoulderP, AutonomousConstants.PIDFs.shoulderI, AutonomousConstants.PIDFs.shoulderD, AutonomousConstants.PIDFs.shoulderF);
+        this.liftController = new PIDFController(AutonomousConstants.PIDFs.liftP, AutonomousConstants.PIDFs.liftI, AutonomousConstants.PIDFs.liftD, AutonomousConstants.PIDFs.liftF);
+        this.driveXController = new PIDFController(AutonomousConstants.PIDFs.driveXP, AutonomousConstants.PIDFs.driveXI, AutonomousConstants.PIDFs.driveXD, AutonomousConstants.PIDFs.driveXF);
+        this.driveYController = new PIDFController(AutonomousConstants.PIDFs.driveYP, AutonomousConstants.PIDFs.driveYI, AutonomousConstants.PIDFs.driveYD, AutonomousConstants.PIDFs.driveYF);
+        this.driveHeadingController = new PIDFController(AutonomousConstants.PIDFs.driveHeadingP, AutonomousConstants.PIDFs.driveHeadingI, AutonomousConstants.PIDFs.driveHeadingD, AutonomousConstants.PIDFs.driveHeadingF);
     }
 
     public void loop() {
