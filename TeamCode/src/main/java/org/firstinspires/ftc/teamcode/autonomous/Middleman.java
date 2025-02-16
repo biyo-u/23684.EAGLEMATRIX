@@ -2,18 +2,17 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.arcrobotics.ftclib.controller.PIDFController;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
+import org.firstinspires.ftc.teamcode.utilites.TelemetryInfo;
 import org.firstinspires.ftc.teamcode.utilites.Timer;
 
 import java.util.concurrent.TimeUnit;
 
 public class Middleman {
     private final Driver driver;
-    private final Telemetry telemetry;
+    private final TelemetryInfo telemetryInfo;
     private final PIDFController shoulderController;
     private final PIDFController liftController;
     private final PIDFController driveXController;
@@ -38,9 +37,9 @@ public class Middleman {
     private boolean liftBusy = false;
 
 
-    public Middleman(HardwareMap hardwareMap, Telemetry telemetry) {
+    public Middleman(HardwareMap hardwareMap, TelemetryInfo telemetryInfo) {
         this.driver = new Driver(hardwareMap);
-        this.telemetry = telemetry;
+        this.telemetryInfo = telemetryInfo;
 //        this.shoulderController = new PIDFController(AutonomousConstants.PIDFs.shoulderPIDF.getP(), AutonomousConstants.PIDFs.shoulderPIDF.getI(), AutonomousConstants.PIDFs.shoulderPIDF.getD(), AutonomousConstants.PIDFs.shoulderPIDF.getF());
 //        this.liftController = new PIDFController(AutonomousConstants.PIDFs.liftPIDF.getP(), AutonomousConstants.PIDFs.liftPIDF.getI(), AutonomousConstants.PIDFs.liftPIDF.getD(), AutonomousConstants.PIDFs.liftPIDF.getF());
 //        this.driveXController = new PIDFController(AutonomousConstants.PIDFs.driveXPIDF.getP(), AutonomousConstants.PIDFs.driveXPIDF.getI(), AutonomousConstants.PIDFs.driveXPIDF.getD(), AutonomousConstants.PIDFs.driveXPIDF.getF());
@@ -61,7 +60,7 @@ public class Middleman {
                 driveYController.calculate(driver.getPosition().getY(DistanceUnit.INCH), positionTarget.getY(DistanceUnit.INCH)),
                 driveHeadingController.calculate(driver.getPosition().getHeading(AngleUnit.DEGREES), positionTarget.getHeading(AngleUnit.DEGREES)));
         driver.loop();
-        driver.telemetry(telemetry);
+        driver.telemetry(telemetryInfo);
         telemetry();
 
         if (Math.abs(driver.getPosition().getX(DistanceUnit.INCH) - positionTarget.getX(DistanceUnit.INCH)) <= distanceAccuracyThreshold) {
@@ -141,23 +140,20 @@ public class Middleman {
     }
 
     public void telemetry() {
-        telemetry.addData("Shoulder Target", shoulderTarget);
-        telemetry.addData("Lift Target", liftTarget);
-        telemetry.addData("X Target", positionTarget.getX(DistanceUnit.INCH));
-        telemetry.addData("Y Target", positionTarget.getY(DistanceUnit.INCH));
-        telemetry.addData("Heading Target", positionTarget.getHeading(AngleUnit.DEGREES));
-        telemetry.addData("Distance Accuracy Threshold", distanceAccuracyThreshold);
-        telemetry.addData("Rotation Accuracy Threshold", rotationAccuracyThreshold);
-        telemetry.addData("Shoulder Accuracy Threshold", shoulderAccuracyThreshold);
-        telemetry.addData("Lift Accuracy Threshold", liftAccuracyThreshold);
-
-        telemetry.addData("isDriveXBusy", isDriveXBusy());
-        telemetry.addData("isDriveYBusy", isDriveYBusy());
-        telemetry.addData("isDriveHeadingBusy", isDriveHeadingBusy());
-        telemetry.addData("isShoulderBusy", isShoulderBusy());
-        telemetry.addData("isLiftBusy", isLiftBusy());
-
-        telemetry.update();
+        telemetryInfo.shoulderTarget = shoulderTarget;
+    	telemetryInfo.liftTarget = liftTarget;
+        telemetryInfo.driveXTarget = positionTarget.getX(DistanceUnit.INCH);
+    	telemetryInfo.driveYTarget = positionTarget.getY(DistanceUnit.INCH);
+        telemetryInfo.driveHeadingTarget = positionTarget.getHeading(AngleUnit.DEGREES);
+        telemetryInfo.distanceAccuracyThreshold = distanceAccuracyThreshold;
+        telemetryInfo.rotationAccuracyThreshold = rotationAccuracyThreshold;
+        telemetryInfo.shoulderAccuracyThreshold = shoulderAccuracyThreshold;
+        telemetryInfo.liftAccuracyThreshold = liftAccuracyThreshold;
+        telemetryInfo.driveXBusy = driveXBusy;
+        telemetryInfo.driveYBusy = driveYBusy;
+        telemetryInfo.driveHeadingBusy = driveHeadingBusy;
+        telemetryInfo.shoulderBusy = shoulderBusy;
+        telemetryInfo.liftBusy = liftBusy;
     }
 
     public boolean isDriveXBusy() {

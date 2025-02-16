@@ -2,12 +2,11 @@ package org.firstinspires.ftc.teamcode.autonomous;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Pose2D;
 import org.firstinspires.ftc.teamcode.utilites.GoBildaPinpointDriver;
+import org.firstinspires.ftc.teamcode.utilites.TelemetryInfo;
 
 public class Driver {
     private final DcMotor shoulder;
@@ -107,12 +106,11 @@ public class Driver {
         return liftPosition;
     }
 
-    public void telemetry(Telemetry telemetry) {
-        telemetry.addData("X Position", position.getX(DistanceUnit.INCH));
-        telemetry.addData("Y Position", position.getY(DistanceUnit.INCH));
-        telemetry.addData("Heading Position", position.getHeading(AngleUnit.DEGREES));
-        telemetry.addData("Shoulder Position", shoulderPosition);
-        telemetry.addData("Lift Position", liftPosition);
-        telemetry.update();
+    public void telemetry(TelemetryInfo telemetryInfo) {
+        telemetryInfo.xPosition = position.getX(DistanceUnit.INCH);
+        telemetryInfo.yPosition = position.getY(DistanceUnit.INCH);
+        telemetryInfo.headingPosition = position.getHeading(AngleUnit.DEGREES);
+        telemetryInfo.shoulderPosition = shoulderPosition;
+        telemetryInfo.liftPosition = liftPosition;
     }
 }

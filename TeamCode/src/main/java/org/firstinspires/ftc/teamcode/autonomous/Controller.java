@@ -7,6 +7,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.utilites.Action;
+import org.firstinspires.ftc.teamcode.utilites.TelemetryInfo;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,26 +18,27 @@ public class Controller {
     private final Driver driver;
     private final Middleman middleman;
     private final Telemetry telemetry;
+    private final TelemetryInfo telemetryInfo;
     private final List<Action> actions;
     private final List<Action> completedActions = new ArrayList<>();
     private final Map<String, Action> actionMap = new HashMap<>();
     private final int currentActionIndex = 0;
 
     public Controller(HardwareMap hardwareMap, Telemetry telemetry, String path) {
-        this.driver = new Driver(hardwareMap);
-        this.middleman = new Middleman(hardwareMap, telemetry);
         this.telemetry = telemetry;
+        this.telemetryInfo = new TelemetryInfo();
+        this.driver = new Driver(hardwareMap);
+        this.middleman = new Middleman(hardwareMap, telemetryInfo);
 
         this.actions = parseCsvString(path);
         for (Action action : actions) {
             actionMap.put(action.getId(), action);
             telemetry.addLine("Parsed Action - ID: " + action.getId() + ", Action: " + action.getAction() + ", Value: " + action.getValue() + ", Requirement: " + action.getRequirements()); // Print requirements list
         }
-        telemetry.update();
     }
 
     public void run() {
-        if (currentActionIndex < actions.size()) {
+        if (!actions.isEmpty()) {
             Action currentAction = actions.get(currentActionIndex);
 
             if (areRequirementsMet(currentAction)) { // Use areRequirementsMet
@@ -47,19 +49,42 @@ public class Controller {
                         completedActions.add(currentAction);
                         actions.remove(currentActionIndex);
                         telemetry.addLine("Action " + currentAction.getId() + " completed and removed, moving to next action.");
-                        telemetry.update();
                     }
                 }
             } else {
                 // Requirement not met yet, wait.
                 telemetry.addLine("Waiting for requirements for Action " + currentAction.getId() + ": " + currentAction.getRequirements()); // Print requirements list
-                telemetry.update();
             }
         } else {
             telemetry.addLine("Autonomous sequence complete!");
-            telemetry.update();
-            // Autonomous sequence is finished.
         }
+
+        middleman.loop();
+
+        telemetry.addData("Shoulder Position", telemetryInfo.shoulderPosition);
+        telemetry.addData("Lift Position", telemetryInfo.liftPosition);
+        telemetry.addData("X Position", telemetryInfo.xPosition);
+        telemetry.addData("Y Position", telemetryInfo.yPosition);
+        telemetry.addData("Heading Position", telemetryInfo.headingPosition);
+        telemetry.addData("Drive X Target", telemetryInfo.driveXTarget);
+        telemetry.addData("Drive Y Target", telemetryInfo.driveYTarget);
+        telemetry.addData("Drive Heading Target", telemetryInfo.driveHeadingTarget);
+        telemetry.addData("Shoulder Target", telemetryInfo.shoulderTarget);
+        telemetry.addData("Lift Target", telemetryInfo.liftTarget);
+        telemetry.addData("Drive X Busy", telemetryInfo.driveXBusy);
+        telemetry.addData("Drive Y Busy", telemetryInfo.driveYBusy);
+        telemetry.addData("Drive Heading Busy", telemetryInfo.driveHeadingBusy);
+        telemetry.addData("Shoulder Busy", telemetryInfo.shoulderBusy);
+        telemetry.addData("Lift Busy", telemetryInfo.liftBusy);
+        telemetry.addData("Drive X Power", telemetryInfo.driveXPower);
+        telemetry.addData("Drive Y Power", telemetryInfo.driveYPower);
+        telemetry.addData("Drive Heading Power", telemetryInfo.driveHeadingPower);
+        telemetry.addData("Shoulder Power", telemetryInfo.shoulderPower);
+        telemetry.addData("Lift Power", telemetryInfo.liftPower);
+        telemetry.addData("Distance Accuracy", telemetryInfo.distanceAccuracyThreshold);
+        telemetry.addData("Rotation Accuracy", telemetryInfo.rotationAccuracyThreshold);
+        telemetry.addData("Shoulder Accuracy", telemetryInfo.shoulderAccuracyThreshold);
+        telemetry.addData("Lift Accuracy", telemetryInfo.liftAccuracyThreshold);
     }
 
     private boolean areRequirementsMet(Action action) { // Renamed to areRequirementsMet and updated logic
@@ -86,7 +111,6 @@ public class Controller {
 
     private void startAction(Action action) {
         telemetry.addLine("Starting Action: " + action.getId() + ", Type: " + action.getAction());
-        telemetry.update();
         String actionType = action.getAction().toUpperCase();
         Double value = action.getValue();
         Double distanceAccuracy = action.getDistanceAccuracy();
